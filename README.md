@@ -1,6 +1,6 @@
 # Art by Location
 
-One Paragraph of the project description
+A simple webpage to practice React and working with APIs. Allows you to choose a location and then displays a random piece of artwork from the Metropolitan Museum of Art collection coming from that location. 
 
 ## Getting Started
 
@@ -53,4 +53,4 @@ Add additional notes to deploy this on a live system
 ## Built With
 
   - [Metropolitan Museum of Art public API](https://metmuseum.github.io/) 
-  - 
+  - [Create React App](https://create-react-app.dev/)
