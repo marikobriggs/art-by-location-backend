@@ -1,12 +1,15 @@
+import React from 'react'
 import Menu from './components/Menu'
-import './App.css';
+import './index.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className="flex h-screen">
+      <div className="m-auto">
       <header className="App-header">
         <Menu/>
       </header>
+      </div>
     </div>
   );
 }

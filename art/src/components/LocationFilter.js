@@ -1,6 +1,8 @@
 import React from "react";
 
-import "./LocationFilter.css";
+import styles from "../index.css"
+
+// import "./LocationFilter.css";
 
 const LocationFilter = (props) => {
   const dropdownChangeHandler = (event) => {
@@ -8,10 +10,10 @@ const LocationFilter = (props) => {
   };
 
   return (
-    <div className="location-filter">
-      <div className="location-filter__control">
+    <div>
+      <div className="">
         <label>Filter by location</label>
-        <select onChange={dropdownChangeHandler}>
+        <select className="w-1/2 p-2 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-slate-600" onChange={dropdownChangeHandler}>
           <option value="Paris">Paris</option>
           <option value="Tokyo">Tokyo</option>
           <option value="New York">New York</option>
