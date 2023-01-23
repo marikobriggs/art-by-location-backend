@@ -7,15 +7,9 @@ const Menu = () => {
   const [filteredLocation, setFilteredLocation] = useState("France");
   const [artURL, setArtURL] = useState("");
 
-  // let artInfo = "";
-
   // TODO: don't use a function for props
   const filterChangeHandler = (selectedLocation) => {
     setFilteredLocation(selectedLocation);
-  };
-
-  const artChangeHandler = (url) => {
-    setArtURL(url);
   };
 
   const buttonClickHandler = (event) => {
@@ -48,10 +42,7 @@ const Menu = () => {
         return response.json();
       })
       .then((data) => {
-        // artInfo = data.primaryImageSmall;
-        // console.log("THE URL ISSSSSS " + artInfo);
         setArtURL(data.primaryImageSmall);
-        // return data.primaryImageSmall;
       });
   };
 
@@ -65,7 +56,6 @@ const Menu = () => {
         className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
         onClick={() => {
           buttonClickHandler();
-          artChangeHandler();
         }}
       >
         Display random art from {filteredLocation}
