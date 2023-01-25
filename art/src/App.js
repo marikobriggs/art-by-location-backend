@@ -3,11 +3,15 @@ import Menu from './components/Menu'
 import './index.css';
 
 function App() {
+  const countries = [
+    "Egypt", "France", "Japan", "China", "Chile" 
+  ]
+
   return (
     <div className="flex h-screen">
       <div className="m-auto">
       <header className="App-header">
-        <Menu/>
+        <Menu options={countries}/>
       </header>
       </div>
     </div>

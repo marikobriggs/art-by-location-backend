@@ -3,9 +3,10 @@ import ImageDisplay from "./ImageDisplay";
 import LocationFilter from "./LocationFilter";
 
 // TODO: decompose Button
-const Menu = () => {
-  const [filteredLocation, setFilteredLocation] = useState("France");
+const Menu = (props) => {
+  const [filteredLocation, setFilteredLocation] = useState(props.options[0]);
   const [artURL, setArtURL] = useState("");
+
 
   // TODO: don't use a function for props
   const filterChangeHandler = (selectedLocation) => {
@@ -49,6 +50,7 @@ const Menu = () => {
   return (
     <div className="">
       <LocationFilter
+        options={props.options}
         selected={filteredLocation}
         onChangeFilter={filterChangeHandler}
       />
