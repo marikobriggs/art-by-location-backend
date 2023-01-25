@@ -4,7 +4,7 @@ import './index.css';
 
 function App() {
   const countries = [
-    "Egypt", "France", "Japan", "China", "Chile" 
+    "Canada", "France", "Netherlands", "Poland", "United States"
   ]
 
   return (
