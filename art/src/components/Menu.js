@@ -16,14 +16,14 @@ const Menu = (props) => {
     console.log("start" + "-".repeat(40));
     (async () => {
       let url = await requestArtURL(filteredLocation);
-      console.log("url that we set state to, inside async = " + url);
+      // console.log("url that we set state to, inside async = " + await url);
 
       // handling error return from api call function.
       if (url instanceof Error) console.log("Error occured in requesting URL.");
 
       setArtURL(await url);
     })();
-    console.log("art url set by state, outside of async = " + artURL);
+    // console.log("art url set by state, outside of async = " + await artURL);
   };
 
   return (
