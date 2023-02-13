@@ -26,6 +26,8 @@ terraform import aws_s3_object.s3_united_states art-by-location-bucket/united-st
 # lambda 
 terraform import aws_lambda_function.art_api_lambda art-api
 
+terraform import aws_lambda_permission.execute_lambda_from_gateway art-api/AllowExecutionFromAPIGateway
+
 # iam 
 terraform import aws_iam_role.iam_role_lambda art-dynamo-access
 
