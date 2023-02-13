@@ -36,9 +36,11 @@ resource "aws_s3_bucket" "art_api_bucket" {
   }
 }
 
+#TODO: update the following to be created via for each and json file 
+
 # aws_s3_object.s3_canada:
 resource "aws_s3_object" "s3_canada" {
-  bucket                 = "art-by-location-bucket"
+  bucket                 = aws_s3_bucket.art_api_bucket.bucket
   source                 = "images/canada.jpeg"
   bucket_key_enabled     = false
   content_type           = "image/jpeg"
@@ -51,7 +53,7 @@ resource "aws_s3_object" "s3_canada" {
 
 # aws_s3_object.s3_france:
 resource "aws_s3_object" "s3_france" {
-  bucket                 = "art-by-location-bucket"
+  bucket                 = aws_s3_bucket.art_api_bucket.bucket
   source                 = "images/france.jpeg"
   bucket_key_enabled     = false
   content_type           = "image/jpeg"
@@ -64,7 +66,7 @@ resource "aws_s3_object" "s3_france" {
 
 # aws_s3_object.s3_netherlands:
 resource "aws_s3_object" "s3_netherlands" {
-  bucket                 = "art-by-location-bucket"
+  bucket                 = aws_s3_bucket.art_api_bucket.bucket
   source                 = "images/netherlands.jpeg"
   bucket_key_enabled     = false
   content_type           = "image/jpeg"
@@ -77,7 +79,7 @@ resource "aws_s3_object" "s3_netherlands" {
 
 # aws_s3_object.s3_poland:
 resource "aws_s3_object" "s3_poland" {
-  bucket                 = "art-by-location-bucket"
+  bucket                 = aws_s3_bucket.art_api_bucket.bucket
   source                 = "images/poland.jpeg"
   bucket_key_enabled     = false
   content_type           = "image/jpeg"
@@ -89,8 +91,8 @@ resource "aws_s3_object" "s3_poland" {
 }
 
 # aws_s3_object.s3_united_states:
-resource "aws_s3_object" "s3_united_states" {
-  bucket                 = "art-by-location-bucket"
+resource "aws_s3_object" "s3_unitedstates" {
+  bucket                 = aws_s3_bucket.art_api_bucket.bucket
   source                 = "images/united-states.jpeg"
   bucket_key_enabled     = false
   content_type           = "image/jpeg"
