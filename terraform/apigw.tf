@@ -5,7 +5,9 @@ resource "aws_apigatewayv2_api" "art_api" {
   name                         = "art-api"
   protocol_type                = "HTTP"
   route_selection_expression   = "$request.method $request.path"
-  tags                         = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 
   cors_configuration {
     allow_credentials = false
@@ -28,7 +30,9 @@ resource "aws_apigatewayv2_stage" "art_api_default_stage" {
   api_id      = aws_apigatewayv2_api.art_api.id
   auto_deploy = true
   name        = "main"
-  tags        = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 
   default_route_settings {
     data_trace_enabled       = false

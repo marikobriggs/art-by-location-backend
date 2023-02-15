@@ -44,7 +44,9 @@ resource "aws_s3_object" "s3_canada" {
   metadata               = {}
   server_side_encryption = "AES256"
   storage_class          = "STANDARD"
-  tags                   = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 }
 
 # aws_s3_object.s3_france:
@@ -57,7 +59,9 @@ resource "aws_s3_object" "s3_france" {
   metadata               = {}
   server_side_encryption = "AES256"
   storage_class          = "STANDARD"
-  tags                   = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 }
 
 # aws_s3_object.s3_netherlands:
@@ -70,7 +74,9 @@ resource "aws_s3_object" "s3_netherlands" {
   metadata               = {}
   server_side_encryption = "AES256"
   storage_class          = "STANDARD"
-  tags                   = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 }
 
 # aws_s3_object.s3_poland:
@@ -83,7 +89,9 @@ resource "aws_s3_object" "s3_poland" {
   metadata               = {}
   server_side_encryption = "AES256"
   storage_class          = "STANDARD"
-  tags                   = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 }
 
 # aws_s3_object.s3_united_states:
@@ -96,5 +104,7 @@ resource "aws_s3_object" "s3_unitedstates" {
   metadata               = {}
   server_side_encryption = "AES256"
   storage_class          = "STANDARD"
-  tags                   = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 }

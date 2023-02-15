@@ -64,7 +64,9 @@ resource "aws_iam_role" "iam_role_lambda" {
   max_session_duration = 3600
   name                 = "art-dynamo-access"
   path                 = "/service-role/"
-  tags                 = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 }
 
 # aws_iam_policy.iam_lambda_basic_exec:
@@ -94,7 +96,9 @@ resource "aws_iam_policy" "iam_lambda_basic_exec" {
     }
   )
 
-  tags = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 }
 
 # aws_iam_policy.iam_lambda_microservices_exec:
@@ -120,7 +124,9 @@ resource "aws_iam_policy" "iam_lambda_microservices_exec" {
     }
   )
 
-  tags = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 }
 
 # aws_iam_policy.iam_lambda_s3_read:
@@ -143,7 +149,9 @@ resource "aws_iam_policy" "iam_lambda_s3_read" {
     }
   )
 
-  tags = {}
+  tags = {
+    "CreatorName" = "mariko.briggs@slalom.com"
+  }
 }
 
 resource "aws_lambda_permission" "execute_lambda_from_gateway" {
