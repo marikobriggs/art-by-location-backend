@@ -6,9 +6,6 @@ resource "aws_s3_bucket" "art_api_bucket" {
   tags = {
     "CreatorName" = "mariko.briggs@slalom.com"
   }
-  tags_all = {
-    "CreatorName" = "mariko.briggs@slalom.com"
-  }
 
   grant {
     id = "8000dfc982229d33936dac288c202fccc25bde29998000e8083b5ba2ea1c1182"
@@ -37,7 +34,6 @@ resource "aws_s3_bucket" "art_api_bucket" {
 }
 
 #TODO: update the following to be created via for each and json file 
-
 # aws_s3_object.s3_canada:
 resource "aws_s3_object" "s3_canada" {
   bucket                 = aws_s3_bucket.art_api_bucket.bucket
