@@ -52,12 +52,16 @@ export const handler = async (event, context) => {
   };
 }
 
+// generates an s3 object uri 
+// input: a country name in the format of "canada" 
+// output: an object uri in the format of "s3://art-by-location-bucket/canada.jpeg"
 export const getObjectUrlFromDynamo = (dynamoValue) => {
-  return parseUrl(`https://art-by-location-bucket.s3.${process.env.REGION}.amazonaws.com/${dynamoValue}`)
+  return parseUrl(`https://${process.env.BUCKET_NAME}.s3.${process.env.REGION}.amazonaws.com/${dynamoValue}`)
 }
 
 // generates a single presigned url 
 // input: object uri in the format of "s3://art-by-location-bucket/canada.jpeg"
+// output: a presigned url for that object uri 
 export const generatePresignedURL = async (s3ObjectUrl) => {
   const presigner = new S3RequestPresigner({
     ...s3Client.config
