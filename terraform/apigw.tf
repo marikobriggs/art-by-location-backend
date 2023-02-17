@@ -64,3 +64,15 @@ resource "aws_apigatewayv2_route" "art_api_get" {
   target               = "integrations/${aws_apigatewayv2_integration.art_api_lambda_integration.id}"
 }
 
+# provisioner "local-exec" {
+#   command = ""
+
+# }
+
+output "apigw_default_state_name" {
+  value = aws_apigatewayv2_stage.art_api_default_stage.name
+}
+
+output "apigw_api_id" {
+  value = aws_apigatewayv2_api.art_api.id
+}

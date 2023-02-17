@@ -45,11 +45,11 @@ export const handler = async (event, context) => {
   } 
   const urlString = await generatePresignedURL(getObjectUrlFromDynamo(body))
   body = urlString
-  return {
+  return JSON.stringify({
     statusCode,
     body,
     headers
-  };
+  });
 }
 
 // generates an s3 object uri 
