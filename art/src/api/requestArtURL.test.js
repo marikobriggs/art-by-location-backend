@@ -26,7 +26,7 @@ describe("assuming api fetch promise is resolved", () => {
 
   // input: florida, an invalid location
   // output: canada's url
-  it("returns a canada url", async () => {
+  it("returns a florida url", async () => {
     fetch.mockImplementationOnce(() =>
       Promise.resolve({
         json: () => Promise.resolve({ body: "errormessage", status: 400 }),
