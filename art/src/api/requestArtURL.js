@@ -2,15 +2,21 @@ const requestArtURL = async (filteredLocation) => {
 
   filteredLocation = filteredLocation.toLowerCase().replace(" ", "-"); 
 
-  const requestURL =  `https://zs1s7cbrt3.execute-api.us-west-1.amazonaws.com/main/items/${filteredLocation}`
+  const requestURL =  `https://${process.env.REACT_APP_APIGW_ID}.execute-api.${process.env.REACT_APP_AWS_REGION}.amazonaws.com/${process.env.REACT_APP_APIGW_STAGE}/items/${filteredLocation}`
+  // console.log(requestURL)
 
   const myRequest = new Request(
     requestURL
   );
   
-  const response = await fetch(myRequest);
-  const responseURL = await response.text(); 
-  return responseURL; 
+  try {
+    const response = await fetch(myRequest);
+    const responseJson = await response.json();
+    console.log(responseJson)
+    return responseJson; 
+  } catch (error) {
+    return error; 
+  }
 
   // try {
   //   const response = await fetch(myRequest);
@@ -28,8 +34,4 @@ const requestArtURL = async (filteredLocation) => {
 
 };
 
-export default requestArtURL;
-
-// const response = await fetch(myRequest);
-// const responseBody = await response.json();
-// return await responseBody.URL;
+export default requestArtURL; 

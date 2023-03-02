@@ -15,7 +15,8 @@ const Menu = (props) => {
   const buttonClickHandler = async (event) => {
     console.log("start" + "-".repeat(40));
     (async () => {
-      let url = await requestArtURL(filteredLocation);
+      let response = await requestArtURL(filteredLocation);
+      let url = response.body; 
       console.log("this is the url from the front end ", url) 
       // handling error return from api call function.
       // if (url instanceof Error) console.log("Error occured in requesting URL.");
