@@ -39,12 +39,14 @@ export const handler = async (event, context) => {
     );
 
     body = body.Item.ObjectName;
+    const urlString = await generatePresignedURL(getObjectUrlFromDynamo(body))
+    body = urlString
+    
   } catch (error) {
     statusCode = 400;
-    body = error.message;
+    body = error.name + ": " + error.message;
   } 
-  const urlString = await generatePresignedURL(getObjectUrlFromDynamo(body))
-  body = urlString
+
   return JSON.stringify({
     statusCode,
     body,
