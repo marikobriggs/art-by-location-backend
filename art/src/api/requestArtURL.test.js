@@ -16,7 +16,7 @@ beforeEach(() => {
 describe("assuming api fetch promise is resolved", () => {
   // input: canada, a valid location
   // output: canada's url
-  it("returns a canada url", async () => {
+  it("returns a canada url, as location was valid (canada)", async () => {
     const result = await requestArtURL("Canada");
 
     expect(result.body).toEqual("canadaurl");
@@ -26,7 +26,7 @@ describe("assuming api fetch promise is resolved", () => {
 
   // input: florida, an invalid location
   // output: canada's url
-  it("returns a florida url", async () => {
+  it("returns an error, as location was invalid (florida)", async () => {
     fetch.mockImplementationOnce(() =>
       Promise.resolve({
         json: () => Promise.resolve({ body: "errormessage", status: 400 }),
@@ -43,7 +43,7 @@ describe("assuming api fetch promise is resolved", () => {
 describe("assuming api fetch promise is rejected", () => {
   // input: canada, a valid location
   // output: error, due to api failure
-  it("returns an error due to api failure with valid location ", async () => {
+  it("returns an error due to api failure with valid location (canada)", async () => {
     fetch.mockImplementationOnce(() =>
       Promise.reject(new Error("promise rejected"))
     );
@@ -55,7 +55,7 @@ describe("assuming api fetch promise is rejected", () => {
 
   // input: florida, an invalid location
   // output: error, due to api failure
-  it("returns an error due to api failure with invalid location ", async () => {
+  it("returns an error due to api failure with invalid location (florida)", async () => {
     fetch.mockImplementationOnce(() =>
       Promise.reject(new Error("promise rejected"))
     );
