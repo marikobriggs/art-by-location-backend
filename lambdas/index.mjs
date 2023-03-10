@@ -7,13 +7,37 @@ import { HttpRequest } from "@aws-sdk/protocol-http"
 import { Hash } from "@aws-sdk/hash-node"
 import { parseUrl } from "@aws-sdk/url-parser"
 
-const client = new DynamoDBClient({});
-const dynamo = DynamoDBDocumentClient.from(client);
+// FOR TESTING 
+const isTest = process.env.JEST_WORKER_ID;
+
+const dynamo = DynamoDBDocumentClient.from(
+  new DynamoDBClient({
+    ...(isTest && {
+      endpoint: 'localhost:8000',
+      sslEnabled: false,
+      region: 'local-env',
+      credentials: {
+        accessKeyId: 'fakeMyKeyId',
+        secretAccessKey: 'fakeSecretAccessKey',
+      },
+    }),
+  }),
+  {
+    marshallOptions: {
+      convertEmptyValues: true,
+    },
+  }
+);
+// END FOR TESTING 
+
+// comment out below for testing 
+// const client = new DynamoDBClient({});
+// const dynamo = DynamoDBDocumentClient.from(client);
 const s3Client = new S3Client({
   region: process.env.REGION,
   sha256: Hash.bind(null, "sha256")
 });
-
+console.log(process.env.NODE_ENV)
 export const bucketParams = {
   Bucket: process.env.BUCKET_NAME,
 }
