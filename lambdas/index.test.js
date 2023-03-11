@@ -1,4 +1,3 @@
-import { index } from "./index";
 
 process.env.REACT_APP_ENV="test"; 
 
@@ -19,20 +18,9 @@ const s3ClientMock = mockClient(S3Client)
 // const dynamoClient = new DynamoDBClient({});
 // const dynamoClientMock = mockClient(DynamoDBDocumentClient.from(dynamoClient))
 
-// jest.mock('aws-sdk', () => {
-//   return {
-//     DynamoDB: { // just an object, not a function
-//       DocumentClient: jest.fn(() => ({
-//         put: mockDynamoDbPut
-//       }))
-//     }
-//   }});
-
-
 
 beforeEach(() => {
   s3ClientMock.reset();
-  // dynamoClientMock.reset(); 
 })
 
 // TypeError: Cannot read properties of undefined (reading 'ObjectName')

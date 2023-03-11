@@ -1,48 +1,20 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient,GetCommand } from "@aws-sdk/lib-dynamodb";
-import { S3Client } from "@aws-sdk/client-s3";
-import { S3RequestPresigner } from "@aws-sdk/s3-request-presigner";
-import { formatUrl } from "@aws-sdk/util-format-url"
-import { HttpRequest } from "@aws-sdk/protocol-http"
-import { Hash } from "@aws-sdk/hash-node"
-import { parseUrl } from "@aws-sdk/url-parser"
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBDocumentClient, GetCommand } = require("@aws-sdk/lib-dynamodb");
+const { S3Client } = require("@aws-sdk/client-s3");
+const { S3RequestPresigner } = require("@aws-sdk/s3-request-presigner");
+const { formatUrl } = require("@aws-sdk/util-format-url");
+const { HttpRequest } = require("@aws-sdk/protocol-http");
+const { Hash } = require("@aws-sdk/hash-node");
+const { parseUrl } = require("@aws-sdk/url-parser");
 
-// FOR TESTING 
-const isTest = process.env.JEST_WORKER_ID;
-
-const dynamo = DynamoDBDocumentClient.from(
-  new DynamoDBClient({
-    ...(isTest && {
-      endpoint: 'localhost:8000',
-      sslEnabled: false,
-      region: 'local-env',
-      credentials: {
-        accessKeyId: 'fakeMyKeyId',
-        secretAccessKey: 'fakeSecretAccessKey',
-      },
-    }),
-  }),
-  {
-    marshallOptions: {
-      convertEmptyValues: true,
-    },
-  }
-);
-// END FOR TESTING 
-
-// comment out below for testing 
-// const client = new DynamoDBClient({});
-// const dynamo = DynamoDBDocumentClient.from(client);
+const client = new DynamoDBClient({});
+const dynamo = DynamoDBDocumentClient.from(client);
 const s3Client = new S3Client({
   region: process.env.REGION,
   sha256: Hash.bind(null, "sha256")
 });
-console.log(process.env.NODE_ENV)
-export const bucketParams = {
-  Bucket: process.env.BUCKET_NAME,
-}
 
-export const handler = async (event, context) => {
+module.exports.handler = async (event, context) => {
   let body;
   let statusCode = 200;
   const headers = {
@@ -66,8 +38,12 @@ export const handler = async (event, context) => {
     const urlString = await generatePresignedURL(getObjectUrlFromDynamo(body))
     body = urlString
     
-  } catch (error) {
-    statusCode = 400;
+  } catch (error) { // TODO: improve. no retry logic atm 
+    if (error.statusCode) 
+      statusCode = error.statusCode; 
+    else  // meant to catch TypeError, which does not come with an included status code. TODO: see if any other errors are like this? 
+      statusCode = 400; 
+
     body = error.name + ": " + error.message;
   } 
 
@@ -81,14 +57,14 @@ export const handler = async (event, context) => {
 // generates an s3 object uri 
 // input: a country name in the format of "canada" 
 // output: an object uri in the format of "s3://art-by-location-bucket/canada.jpeg"
-export const getObjectUrlFromDynamo = (dynamoValue) => {
+const getObjectUrlFromDynamo = (dynamoValue) => {
   return parseUrl(`https://${process.env.BUCKET_NAME}.s3.${process.env.REGION}.amazonaws.com/${dynamoValue}`)
 }
 
 // generates a single presigned url 
 // input: object uri in the format of "s3://art-by-location-bucket/canada.jpeg"
 // output: a presigned url for that object uri 
-export const generatePresignedURL = async (s3ObjectUrl) => {
+const generatePresignedURL = async (s3ObjectUrl) => {
   const presigner = new S3RequestPresigner({
     ...s3Client.config
   })
