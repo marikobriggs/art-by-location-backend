@@ -4,5 +4,8 @@
   },
   "scripts": {
     "test": "jest"
+  },
+  "devDependencies": {
+    "@shelf/jest-dynamodb": "^3.4.1"
   }
 }
