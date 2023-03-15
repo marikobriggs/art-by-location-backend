@@ -1,5 +1,5 @@
 process.env.REACT_APP_ENV = "test";
-const { index } = require("./index");
+// const { index } = require("./index");
 
 // RESPONSE FROM SUCCESSFUL CALL (canada)
 // {
@@ -29,6 +29,17 @@ const { index } = require("./index");
 //   Item: undefined
 // }
 
+jest.mock('./index', () => {
+  generatePresignedURL: () => 'this is the url'
+})
+
+it('tests if mock works', async () => {
+  result = generatePresignedURL() 
+  expect(result).toEqual("this is the url")
+})
+
+/////////////////////////////////////////
+
 const mockDynamoGet = jest.fn().mockImplementation(() => {
   return {
     promise() {
@@ -52,11 +63,19 @@ it("test", async () => {
   expect(await index.mockDynamoGet()).toEqual(expectedResult) 
 })
 
-// jest.mock('aws-sdk/client-s3', () => {
-//   return {
+jest.mock('aws-sdk/client-s3', () => {
+  return {
 
-//   }
-// })
+  }
+})
+
+jest.mock('aws-sdk/s3-request-presigner', () => {
+  return {
+    S3RequestPresigner: jest.fn(() => {
+      
+    }) 
+  }
+})
 
 // mock generatePresignedURL method 
 // it("returns correct result", () => {
