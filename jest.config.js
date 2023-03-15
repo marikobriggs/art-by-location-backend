@@ -1,3 +1,3 @@
-module.exports = {
-  preset: '@shelf/jest-dynamodb'
-}
+// module.exports = {
+//   preset: '@shelf/jest-dynamodb'
+// }

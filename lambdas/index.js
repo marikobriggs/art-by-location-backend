@@ -1,18 +1,18 @@
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocumentClient, GetCommand } = require("@aws-sdk/lib-dynamodb");
-const { S3Client } = require("@aws-sdk/client-s3");
-const { S3RequestPresigner } = require("@aws-sdk/s3-request-presigner");
-const { formatUrl } = require("@aws-sdk/util-format-url");
-const { HttpRequest } = require("@aws-sdk/protocol-http");
-const { Hash } = require("@aws-sdk/hash-node");
-const { parseUrl } = require("@aws-sdk/url-parser");
+// const { S3Client } = require("@aws-sdk/client-s3");
+// const { S3RequestPresigner } = require("@aws-sdk/s3-request-presigner");
+// const { formatUrl } = require("@aws-sdk/util-format-url");
+// const { HttpRequest } = require("@aws-sdk/protocol-http");
+// const { Hash } = require("@aws-sdk/hash-node");
+// const { parseUrl } = require("@aws-sdk/url-parser");
 
-const client = new DynamoDBClient({});
-const dynamo = DynamoDBDocumentClient.from(client);
-const s3Client = new S3Client({
-  region: process.env.REGION,
-  sha256: Hash.bind(null, "sha256")
-});
+// const client = new DynamoDBClient({});
+// const dynamo = DynamoDBDocumentClient.from(client);
+// const s3Client = new S3Client({
+//   region: process.env.REGION,
+//   sha256: Hash.bind(null, "sha256")
+// });
 
 module.exports.handler = async (event, context) => {
   let body;
@@ -57,18 +57,20 @@ module.exports.handler = async (event, context) => {
 // generates an s3 object uri 
 // input: a country name in the format of "canada" 
 // output: an object uri in the format of "s3://art-by-location-bucket/canada.jpeg"
-const getObjectUrlFromDynamo = (dynamoValue) => {
+module.exports.getObjectUrlFromDynamo = (dynamoValue) => {
   return parseUrl(`https://${process.env.BUCKET_NAME}.s3.${process.env.REGION}.amazonaws.com/${dynamoValue}`)
 }
 
 // generates a single presigned url 
 // input: object uri in the format of "s3://art-by-location-bucket/canada.jpeg"
 // output: a presigned url for that object uri 
-const generatePresignedURL = async (s3ObjectUrl) => {
+module.exports.generatePresignedURL = async (s3ObjectUrl) => {
   const presigner = new S3RequestPresigner({
     ...s3Client.config
   })
   const url = await presigner.presign(new HttpRequest(s3ObjectUrl)); 
   
   return formatUrl(url); 
-}
+} 
+
+// export default handler; 

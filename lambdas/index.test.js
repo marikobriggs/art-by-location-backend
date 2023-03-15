@@ -1,42 +1,86 @@
+process.env.REACT_APP_ENV = "test";
+const { index } = require("./index");
 
-process.env.REACT_APP_ENV="test"; 
+// RESPONSE FROM SUCCESSFUL CALL (canada)
+// {
+//   '$metadata': {
+//     httpStatusCode: 200,
+//     requestId: '20TD3MVMUM4G2TES0BTHJ2778RVV4KQNSO5AEMVJF66Q9ASUAAJG',
+//     extendedRequestId: undefined,
+//     cfId: undefined,
+//     attempts: 1,
+//     totalRetryDelay: 0
+//   },
+//   ConsumedCapacity: undefined,
+//   Item: { CountryName: 'canada', ObjectName: 'canada.jpeg' }
+// }
 
-const { mockClient } = require("aws-sdk-client-mock");
-const { S3Client } = require("@aws-sdk/client-s3")
-const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
-const { DynamoDBDocumentClient,GetCommand } = require("@aws-sdk/lib-dynamodb");
-// error situations:
-// - some flavor of 400 error (sometimes retries apply)
-// - some flavor of 500 error 
-// -
-// const myMock = jest.fn(() =>
+// RESPONSE FROM UNSUCESSFUL CALL (Argentina)
+// {
+//   '$metadata': {
+//     httpStatusCode: 200,
+//     requestId: 'R1PEDVHNQPGQF3DIA9EOCV2V4JVV4KQNSO5AEMVJF66Q9ASUAAJG',
+//     extendedRequestId: undefined,
+//     cfId: undefined,
+//     attempts: 1,
+//     totalRetryDelay: 0
+//   },
+//   ConsumedCapacity: undefined,
+//   Item: undefined
+// }
 
-// )
-
-const s3ClientMock = mockClient(S3Client)
-// ? 
-// const dynamoClient = new DynamoDBClient({});
-// const dynamoClientMock = mockClient(DynamoDBDocumentClient.from(dynamoClient))
-
-
-beforeEach(() => {
-  s3ClientMock.reset();
+const mockDynamoGet = jest.fn().mockImplementation(() => {
+  return {
+    promise() {
+      return Promise.resolve({}); 
+    }
+  }
 })
 
-// TypeError: Cannot read properties of undefined (reading 'ObjectName')
-// returned when a non-exist country is entered 
-it("is a type error", () => {
-  
+jest.mock('@aws-sdk/lib-dynamodb', () => {
+  return {
+    DynamoDB: jest.fn(() => ({
+      DocumentClient: jest.fn(() => {
+        send: mockDynamoGet 
+      })
+    })) 
+  }
 })
 
-it("is a big test", () => {
-  console.log("234234234ASKDJFKASJDKFKASDJFKASJDFKAJS")
+it("test", async () => {
+  const expectedResult = {"Item": { "ObjectName":"canada.jpeg"}}
+  expect(await index.mockDynamoGet()).toEqual(expectedResult) 
 })
 
-describe("400 errors", () => {
-  it("is a test", () => {
-    console.log("WOJASDFJKSAJDFKLSJFKDJSAJFDSKF")
-    expect(true).toBeTruthy(); 
-  })
-})
+// jest.mock('aws-sdk/client-s3', () => {
+//   return {
 
+//   }
+// })
+
+// mock generatePresignedURL method 
+// it("returns correct result", () => {
+//   const generatePresignedMock = jest.spyOn(index, "generatePresignedURL"); 
+//   const result = generatePresignedMock("s3://art-by-location-bucket/canada.jpeg"); 
+// })
+
+// beforeEach(() => {
+//   send = jest.fn(() => {
+//     Promise.resolve({
+//       getCommand: {
+//         httpStatusCode: 200,
+//         Item: { CountryName: "canada", ObjectName: "canada.jpeg" },
+//       },
+//     });
+//   });
+// });
+
+
+
+// it("successfully hits dynamo by calling canada", async () => {
+//   const result = await index.handler("canada");
+//   console.log(result);
+
+//   expect(result.httpStatusCode).toEqual(200);
+//   expect(result.Item.ObjectName).toEqual("canada.jpeg");
+// });
