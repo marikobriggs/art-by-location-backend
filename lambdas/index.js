@@ -1,6 +1,6 @@
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocumentClient, GetCommand } = require("@aws-sdk/lib-dynamodb");
-// const { S3Client } = require("@aws-sdk/client-s3");
+const { S3Client } = require("@aws-sdk/client-s3");
 // const { S3RequestPresigner } = require("@aws-sdk/s3-request-presigner");
 // const { formatUrl } = require("@aws-sdk/util-format-url");
 // const { HttpRequest } = require("@aws-sdk/protocol-http");

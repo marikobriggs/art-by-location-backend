@@ -1,3 +1,5 @@
+const { generatePresignedURL } = require("./index");
+
 process.env.REACT_APP_ENV = "test";
 // const { index } = require("./index");
 
@@ -29,8 +31,16 @@ process.env.REACT_APP_ENV = "test";
 //   Item: undefined
 // }
 
+// jest.mock('./index', () => {
+//   generatePresignedURL: () => 'this is the url'
+// })
+
+// TODO: find sol to module not found error 
+
 jest.mock('./index', () => {
-  generatePresignedURL: () => 'this is the url'
+  generatePresignedURL: jest.fn(() => {
+    return Promise.resolve({body: 'this is the url' })
+  })
 })
 
 it('tests if mock works', async () => {
@@ -43,7 +53,7 @@ it('tests if mock works', async () => {
 const mockDynamoGet = jest.fn().mockImplementation(() => {
   return {
     promise() {
-      return Promise.resolve({}); 
+      return Promise.resolve({body: "get body"}); 
     }
   }
 })
@@ -63,19 +73,26 @@ it("test", async () => {
   expect(await index.mockDynamoGet()).toEqual(expectedResult) 
 })
 
-jest.mock('aws-sdk/client-s3', () => {
+jest.mock('@aws-sdk/client-s3', () => {
   return {
 
   }
 })
 
-jest.mock('aws-sdk/s3-request-presigner', () => {
+jest.mock('@aws-sdk/s3-request-presigner', () => {
   return {
     S3RequestPresigner: jest.fn(() => {
-      
+      presign: Promise.resolve({body: "this is url"})
     }) 
   }
 })
+
+it("tests presigned url", async () => {
+  const expectedResult = {"body":"this is url"}
+  expect(await index.presign()).toEqual(expectedResult) 
+})
+
+
 
 // mock generatePresignedURL method 
 // it("returns correct result", () => {
